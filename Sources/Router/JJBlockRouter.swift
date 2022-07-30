@@ -65,7 +65,7 @@ extension JJBlockRouter {
     ///   - context: 传递给匹配到的路由界面数据
     /// - Returns: 匹配结果block
     @discardableResult
-    func open<T>(_ source: T, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) -> (UIViewController?) -> JJBlockRouter.MatchResult? where T: JJBlockRouterSource {
+    public func open<T>(_ source: T, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) -> (UIViewController?) -> JJBlockRouter.MatchResult? where T: JJBlockRouterSource {
         return open(source.routerPattern, context: context, unmatchHandler: unmatchHandler)
     }
     

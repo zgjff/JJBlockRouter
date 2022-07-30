@@ -13,7 +13,7 @@ JJBlockRouter
 思路
 =================
 最基本思路: 谁显示,谁负责显示方式
-> 即从A跳转到B,由B自己来决定是push还是present，已或者使用自定义的转场动画来显示
+> 即从A跳转到B,由B自己来决定是push还是present，亦或者使用自定义的转场动画来显示
 
 所以路由界面需要遵守`JJBlockRouterDestination`协议并实现`func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController)`方法
 

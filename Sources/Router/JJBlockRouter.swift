@@ -117,14 +117,6 @@ extension JJBlockRouter {
     }
 }
 
-extension JJBlockRouter {
-    @available(iOS 13.0.0, *)
-    func aaaaa(url: URL, context: Any?) async -> Int {
-        try? await Task.sleep(nanoseconds: 1000 * 1000 * 1000 * 3)
-        return 5
-    }
-}
-
 // MARK: - CustomDebugStringConvertible, CustomStringConvertible
 extension JJBlockRouter: CustomDebugStringConvertible, CustomStringConvertible {
     public var description: String {

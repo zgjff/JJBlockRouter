@@ -73,7 +73,7 @@ SimpleRouter.allCases.forEach { try! $0.register() }
 ```
 
 ## 二、跳转
-### 2.1 通过具体的`JJBlockRouterDestination`对象跳转路由
+### 2.1 通过具体的`JJBlockRouterSource`对象跳转路由
 ```swift
 JJBlockRouter.default.open(SimpleRouter.systemPush)(self)
 ```

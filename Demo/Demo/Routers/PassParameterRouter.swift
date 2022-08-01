@@ -7,22 +7,53 @@
 
 import Foundation
 
-enum PassParameterRouter: String, CaseIterable {
-    case byUrl = "/app/passParameterByUrl/:pid/:name"
-    case byUrlWithQuery = "/app/search"
-    case byContext = "/app/passParameterByContext"
-    case mixUrlAndContext = "/app/mixUrlAndContext/:pid/:text"
-    case parameterForInit = "/app/parameterForInit/:id"
-    case updateUIMatchedSame = "/app/updateUIMatchedSame/:id"
+enum PassParameterRouter {
+    case byEnum(p: String, q: Int)
+    case byUrl
+    case byUrlWithQuery
+    case byContext
+    case mixUrlAndContext
+    case parameterForInit
+    case updateUIMatchedSame
+}
+
+extension PassParameterRouter {
+    static func register() {
+        let registers: [PassParameterRouter] = [.byEnum(p: "", q: 0), .byUrl, .byUrlWithQuery, .byContext, .mixUrlAndContext, .parameterForInit, .updateUIMatchedSame]
+        registers.forEach { try! $0.register() }
+    }
 }
 
 extension PassParameterRouter: JJBlockRouterSource {
     var routerPattern: String {
-        return rawValue
+        switch self {
+        case .byEnum: return "/app/passParameterByEnum/:p/:q"
+        case .byUrl: return "/app/passParameterByUrl/:pid/:name"
+        case .byUrlWithQuery: return "/app/search"
+        case .byContext: return "/app/passParameterByContext"
+        case .mixUrlAndContext: return "/app/mixUrlAndContext/:pid/:text"
+        case .parameterForInit: return "/app/parameterForInit/:id"
+        case .updateUIMatchedSame: return "/app/updateUIMatchedSame/:id"
+        }
+    }
+    
+    var routerParameters: [String : String] {
+        switch self {
+        case .byUrl, .byUrlWithQuery, .byContext, .mixUrlAndContext, .parameterForInit, .updateUIMatchedSame:
+            return [:]
+        case let .byEnum(p: p, q: q):
+            return ["p": p, "q": "\(q)"]
+        }
     }
     
     func makeRouterDestination(parameters: [String : String], context: Any?) -> JJBlockRouterDestination {
         switch self {
+        case .byEnum:
+            let p = parameters["p"] ?? ""
+            let qstr = parameters["q"] ?? ""
+            let numberFormatter = NumberFormatter()
+            let q = numberFormatter.number(from: qstr)?.intValue
+            return PassParameterByEnumController(p: p, q: q ?? 0)
         case .byUrl:
             return PassParameterByUrlController()
         case .byUrlWithQuery:

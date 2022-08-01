@@ -31,6 +31,6 @@ extension AppDelegate {
     private func registerRouters() {
         SimpleRouter.allCases.forEach { try! $0.register() }
         BlockRouter.allCases.forEach { try! $0.register() }
-        PassParameterRouter.allCases.forEach { try! $0.register() }
+        PassParameterRouter.register()
     }
 }

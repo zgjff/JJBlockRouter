@@ -89,10 +89,28 @@ if let url = URL(string: "https://www.appwebsite.com/app/systemPush/") {
 ```
 
 ## 三、传参数
-### 3.1 通过`path`或者`URL`传参数
+### 3.1 通过实现`JJBlockRouterSource`协议的具体对象传参数
 ```swift
 // 注册
-enum PassParameterRouter: String, CaseIterable {
+enum PassParameterRouter {
+    case byEnum(p: String, q: Int)
+    ...
+}
+var routerParameters: [String : String] {
+    switch self {
+        case let .byEnum(p: p, q: q):
+        return ["p": p, "q": "\(q)"]
+        ...
+    }
+}
+// A
+JJBlockRouter.default.open(PassParameterRouter.byEnum(p: "entry", q: 108))(self)
+// 参数: ["p": "entry", "q": 12]
+```
+### 3.2 通过`path`或者`URL`传参数
+```swift
+// 注册
+enum PassParameterRouter {
     case byUrl = "/app/passParameterByUrl/:pid/:name"
     ...
 }
@@ -101,10 +119,10 @@ JJBlockRouter.default.open("/app/passParameterByUrl/12/jack")(self)
 // 参数: ["pid": "12", "name": "jack"]
 ```
 
-### 3.2 通过`path`或者`URL`带`query`传参数
+### 3.3 通过`path`或者`URL`带`query`传参数
 ```swift
 // 注册
-enum PassParameterRouter: String, CaseIterable {
+enum PassParameterRouter {
     case byUrlWithQuery = "/app/search"
     ...
 }
@@ -113,10 +131,10 @@ JJBlockRouter.default.open("/app/search?name=lili&age=18")(self)
 // 参数: ["name": "lili", "age": "18"]
 ```
 
-### 3.3 通过`context`传参数
+### 3.4 通过`context`传参数
 ```swift
 // 注册
-enum PassParameterRouter: String, CaseIterable {
+enum PassParameterRouter {
     case byContext = "/app/passParameterByContext"
     ...
 }
@@ -131,10 +149,10 @@ func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from so
     }
 ```
 
-### 3.4 混和`URL`与`context`传参数
+### 3.5 混和`URL`与`context`传参数
 ```swift
 // 注册
-enum PassParameterRouter: String, CaseIterable {
+enum PassParameterRouter {
     case mixUrlAndContext = "/app/mixUrlAndContext/:pid/:text"
     ...
 }
@@ -142,10 +160,10 @@ enum PassParameterRouter: String, CaseIterable {
 JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0)(self)
 ```
 
-### 3.5 将参数用于`UIViewController`的初始化
+### 3.6 将参数用于`UIViewController`的初始化
 ```swift
 // 注册
-enum PassParameterRouter: String, CaseIterable {
+enum PassParameterRouter {
     case parameterForInit = "/app/parameterForInit/:id"
     ...
 }

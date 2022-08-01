@@ -12,6 +12,9 @@ public protocol JJBlockRouterSource {
     /// 注册的路由path
     var routerPattern: String { get }
     
+    /// 参数
+    var routerParameters: [String: String] { get }
+    
     /// 注册路由
     func register() throws
 
@@ -20,6 +23,10 @@ public protocol JJBlockRouterSource {
 }
 
 extension JJBlockRouterSource {
+    public var routerParameters: [String: String] {
+        return [:]
+    }
+    
     public func register() throws {
         return try JJBlockRouter.default.register(pattern: routerPattern) { _ in
             return self

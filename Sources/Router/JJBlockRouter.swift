@@ -25,11 +25,12 @@ public final class JJBlockRouter {
         return UIApplication.shared.version_keyWindow
     }
     
-    private let manager = RouterManager()
+    private let routes: Routes
     private let defaultUnmatchHandler: UnmatchHandler?
     private var routeHandlerMappings: [String: MatchedHandler] = [:]
     public init(defaultUnmatchHandler: UnmatchHandler? = nil) {
         self.defaultUnmatchHandler = defaultUnmatchHandler
+        routes = SyncRoutes()
     }
 }
 
@@ -41,7 +42,7 @@ extension JJBlockRouter {
     ///   - mapRouter: 映射匹配到的路由来源----给匹配到路由时,最后决定跳转的策略(可在此处映射其他路由)
     public func register(pattern: String, mapRouter: @escaping (_ matchResult: MatchResult) -> JJBlockRouterSource?) throws {
         do {
-            let route = try manager.register(pattern: pattern)
+            let route = try routes.register(pattern: pattern)
             routeHandlerMappings[route.pattern] = { matchResult in
                 guard let mrd = mapRouter(matchResult) else {
                     return { _ in }
@@ -66,7 +67,14 @@ extension JJBlockRouter {
     /// - Returns: 匹配结果block
     @discardableResult
     public func open<T>(_ source: T, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) -> (UIViewController?) -> JJBlockRouter.MatchResult? where T: JJBlockRouterSource {
-        return open(source.routerPattern, context: context, unmatchHandler: unmatchHandler)
+        guard let matchHandler = routeHandlerMappings[source.routerPattern] else {
+            return { _ in nil }
+        }
+        let mresult = JJBlockRouter.MatchResult(url: URL(string: "/app/nothing")!, parameters: source.routerParameters, context: context)
+        return { fromController in
+            matchHandler(mresult)(fromController)
+            return mresult
+        }
     }
     
     /// 匹配`path`并跳转路由
@@ -90,24 +98,37 @@ extension JJBlockRouter {
     /// - Returns: 匹配结果block
     @discardableResult
     public func open(_ url: URL, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) -> (UIViewController?) -> JJBlockRouter.MatchResult? {
-        guard let route = manager.match(url),
-              let matchHandler = routeHandlerMappings[route.pattern] else {
+        let result = routes.match(url)
+        switch result {
+        case .failure:
             let expectUnmatchHandler = unmatchHandler ?? defaultUnmatchHandler
                 expectUnmatchHandler?(url, context)
             return { _ in nil }
+        case .success(let route):
+            guard let matchHandler = routeHandlerMappings[route.pattern] else {
+                return { _ in nil }
+            }
+            let mresult = JJBlockRouter.MatchResult(url: route.url, parameters: route.parameters, context: context)
+            return { fromController in
+                matchHandler(mresult)(fromController)
+                return mresult
+            }
         }
-        let result = JJBlockRouter.MatchResult(url: route.url, parameters: route.parameters, context: context)
-        return { fromController in
-            matchHandler(result)(fromController)
-            return result
-        }
+    }
+}
+
+extension JJBlockRouter {
+    @available(iOS 13.0.0, *)
+    func aaaaa(url: URL, context: Any?) async -> Int {
+        try? await Task.sleep(nanoseconds: 1000 * 1000 * 1000 * 3)
+        return 5
     }
 }
 
 // MARK: - CustomDebugStringConvertible, CustomStringConvertible
 extension JJBlockRouter: CustomDebugStringConvertible, CustomStringConvertible {
     public var description: String {
-        return manager.description
+        return routes.description
     }
 
     public var debugDescription: String {

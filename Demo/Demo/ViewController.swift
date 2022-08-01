@@ -77,13 +77,13 @@ private extension ViewController {
             RootRowAction(title: "Center Alert ", action: "onClickAlertCenter"),
             RootRowAction(title: "block 1 ", action: "onClickBackBlock"),
             RootRowAction(title: "block 2 ", action: "onClickFrontBlock"),
-            RootRowAction(title: "block 2 ", action: "onClickMapBlock"),
             RootRowAction(title: "map block ", action: "onClickMapBlock"),
             RootRowAction(title: "pass parameter By url", action: "onClickPassParameterByUrl"),
             RootRowAction(title: "pass parameter By url with query", action: "onClickPassParameterByUrlWithQuery"),
             RootRowAction(title: "pass parameter By context", action: "onClickPassParameterByContext"),
             RootRowAction(title: "pass parameter By url and context", action: "onClickPassParameterMixUrlAndContext"),
             RootRowAction(title: "pass parameter for controller init", action: "onClickHandleParameterForInit"),
+            RootRowAction(title: "pass parameter By enum", action: "onClickPassParameterByEnum"),
             RootRowAction(title: "update ui when match same route", action: "onClickUpdateUIWhenMatchSameController"),
         ]
     }
@@ -158,11 +158,16 @@ private extension ViewController {
         JJBlockRouter.default.open(PassParameterRouter.byContext, context: 12)(self)
     }
     
-    @IBAction func onClickPassParameterMixUrlAndContext() {        JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0)(self)
+    @IBAction func onClickPassParameterMixUrlAndContext() {
+        JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0)(self)
     }
     
     @IBAction func onClickHandleParameterForInit() {
         JJBlockRouter.default.open("/app/parameterForInit/66")(self)
+    }
+    
+    @IBAction func onClickPassParameterByEnum() {
+        JJBlockRouter.default.open(PassParameterRouter.byEnum(p: "entry", q: 108))(self)
     }
     
     @IBAction func onClickUpdateUIWhenMatchSameController() {

@@ -1,18 +1,18 @@
 //
-//  RouterManager.swift
+//  SyncRoutes.swift
 //  Demo
 //
-//  Created by zgjff on 2022/7/29.
+//  Created by 郑桂杰 on 2022/7/30.
 //
 
 import Foundation
 
-internal final class RouterManager {
+internal final class SyncRoutes: Routes {
     private var routes: Set<JJBlockRouter.Route> = []
     private let scanner = JJBlockRouter.Scanner()
 }
 
-extension RouterManager {
+extension SyncRoutes {
     @discardableResult
     func register(pattern: String) throws -> JJBlockRouter.Route {
         let tokens = scanner.tokenize(pattern: pattern)
@@ -27,9 +27,9 @@ extension RouterManager {
         return route
     }
     
-    func match(_ url: URL) -> RouteMatchResult?  {
+    func match(_ url: URL) -> Result<RouteMatchResult, MatchRouteError>  {
         if routes.isEmpty {
-            return nil
+            return Result.failure(.emptyRoutes)
         }
         var pattern = url.path
         if let query = url.query {
@@ -40,7 +40,7 @@ extension RouterManager {
         }
         let utokens = scanner.tokenize(pattern: pattern)
         if utokens.isEmpty {
-            return nil
+            return Result.failure(.emptyPattern)
         }
         var route = routes.makeIterator()
         var matchResult: RouteMatchResult?
@@ -50,27 +50,14 @@ extension RouterManager {
                 break
             }
         }
-        return matchResult
-    }
-}
-
-extension RouterManager {
-    enum RegisterRouteError: Error, CustomStringConvertible {
-        case emptyPattern
-        case alreadyExists(oldRoute: JJBlockRouter.Route)
-        
-        var description: String {
-            switch self {
-            case .emptyPattern:
-                return "路由格式为空"
-            case .alreadyExists(let oldRoute):
-                return "已经存在相同模式的路由: \(oldRoute)"
-            }
+        guard let matchResult = matchResult else {
+            return Result.failure(.notMatch)
         }
+        return .success(matchResult)
     }
 }
 
-extension RouterManager: CustomStringConvertible {
+extension SyncRoutes: CustomStringConvertible {
     var description: String {
         let desc: String = routes.reduce("") { result, token in
             if result.isEmpty {

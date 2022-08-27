@@ -7,8 +7,9 @@
 
 import UIKit
 
-class UpdateUIWhenMatchSameController: UIViewController {
+class UpdateUIWhenMatchSameController: UIViewController, ShowMatchRouterable {
     private var pid = 0
+    private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "A"
@@ -20,15 +21,17 @@ class UpdateUIWhenMatchSameController: UIViewController {
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)
         view.addSubview(b)
         title = "\(pid)"
+        showMatchResult(result)
     }
     
     @IBAction private func onClick() {
-        JJBlockRouter.default.open("/app/updateUIMatchedSame/88")(self)
+        (try? JJBlockRouter.default.open("/app/updateUIMatchedSame/88"))?.jump(from: self)
     }
 }
 
 extension UpdateUIWhenMatchSameController: JJBlockRouterDestination {
     func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController) {
+        self.result = result
         pid = parseId(from: result.parameters)
         let navi = UINavigationController(rootViewController: self)
         sourceController.present(navi, animated: true)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BackBlockController: UIViewController {
+class BackBlockController: UIViewController, ShowMatchRouterable {
     private var router: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +18,7 @@ class BackBlockController: UIViewController {
         b.center = view.center
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)
         view.addSubview(b)
+        showMatchResult(router)
     }
     
     @IBAction private func onClick() {

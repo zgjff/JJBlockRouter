@@ -10,13 +10,17 @@ import Foundation
 extension JJBlockRouter {
     /// 路由匹配结果
     public final class MatchResult {
-        public let url: URL
+        /// 来源
+        public let source: Source
+        /// 路由参数
         public let parameters: [String: String]
+        /// 路由携带的内容
         public let context: Any?
+        /// block回调
         private var destinationBlocks: NSMapTable<NSString, JJBlockRouter.Closure<Any, Void>> = .strongToStrongObjects()
         
-        public init(url: URL, parameters: [String: String], context: Any?) {
-            self.url = url
+        public init(source: Source, parameters: [String: String], context: Any?) {
+            self.source = source
             self.parameters = parameters
             self.context = context
         }
@@ -56,7 +60,7 @@ extension JJBlockRouter.MatchResult: CustomDebugStringConvertible, CustomStringC
         if destinationBlocks.count == 0 {
             return """
             RouterMatchResult {
-              url: \(url)
+              \(source)
               parameters: \(parameters)
               context: \(String(describing: context))
             }
@@ -64,7 +68,7 @@ extension JJBlockRouter.MatchResult: CustomDebugStringConvertible, CustomStringC
         }
         return """
         RouterMatchResult {
-          url: \(url)
+          \(source)
           parameters: \(parameters)
           context: \(String(describing: context))
           blocks: \(destinationBlocks)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FrontBlockBController: UIViewController {
+class FrontBlockBController: UIViewController, ShowMatchRouterable {
     private var router: JJBlockRouter.MatchResult?
     private lazy var button = UIButton()
     override func viewDidLoad() {
@@ -19,6 +19,7 @@ class FrontBlockBController: UIViewController {
         button.center = view.center
         button.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)
         view.addSubview(button)
+        showMatchResult(router)
     }
     
     @IBAction private func onClick() {

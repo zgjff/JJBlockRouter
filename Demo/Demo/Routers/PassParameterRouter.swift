@@ -37,7 +37,7 @@ extension PassParameterRouter: JJBlockRouterSource {
         }
     }
     
-    var routerParameters: [String : String] {
+    var routerParameters: [String: String] {
         switch self {
         case .byUrl, .byUrlWithQuery, .byContext, .mixUrlAndContext, .parameterForInit, .updateUIMatchedSame:
             return [:]

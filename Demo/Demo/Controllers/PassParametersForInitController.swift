@@ -7,9 +7,9 @@
 
 import UIKit
 
-class PassParametersForInitController: UIViewController {
+class PassParametersForInitController: UIViewController, ShowMatchRouterable {
     private let pid: Int
-    
+    private var result: JJBlockRouter.MatchResult?
     init(id: Int) {
         pid = id
         super.init(nibName: nil, bundle: nil)
@@ -24,11 +24,13 @@ class PassParametersForInitController: UIViewController {
         view.backgroundColor = .random()
         title = "\(pid)"
         print("pid: ", pid)
+        showMatchResult(result)
     }
 }
 
 extension PassParametersForInitController: JJBlockRouterDestination {
     func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController) {
+        self.result = result
         sourceController.navigationController?.pushViewController(self, animated: true)
     }
 }

@@ -135,17 +135,21 @@ public extension AlertPresentationContext.Default {
     /// 上部圆角圆角不带阴影的presentedViewController view修饰view
     static var topRoundedCornerWrappingView: (CGFloat) -> (UIView, CGRect) -> (UIView) = { radius in
         return { presentedViewControllerView, frame in
-                let presentationRoundedCornerView = UIView(frame: frame)
-                presentationRoundedCornerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-                presentationRoundedCornerView.layer.cornerRadius = radius
+            let presentationRoundedCornerView = UIView(frame: frame)
+            presentationRoundedCornerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+            presentationRoundedCornerView.layer.cornerRadius = radius
+            if #available(iOS 11.0, *) {
                 presentationRoundedCornerView.layer.masksToBounds = true
                 presentationRoundedCornerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-                
-                presentedViewControllerView.frame = presentationRoundedCornerView.bounds
-
-                presentationRoundedCornerView.addSubview(presentedViewControllerView)
-                
-                return presentationRoundedCornerView
+            } else {
+                let maskLayer = CAShapeLayer()
+                maskLayer.frame = presentationRoundedCornerView.bounds
+                maskLayer.path = UIBezierPath(roundedRect: presentationRoundedCornerView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: radius, height: radius)).cgPath
+                presentationRoundedCornerView.layer.mask = maskLayer
+            }
+            presentedViewControllerView.frame = presentationRoundedCornerView.bounds
+            presentationRoundedCornerView.addSubview(presentedViewControllerView)
+            return presentationRoundedCornerView
         }
     }
     

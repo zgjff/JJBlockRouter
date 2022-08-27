@@ -92,29 +92,29 @@ private extension ViewController {
 // MARK: - Simple
 private extension ViewController {
     @IBAction func onClickPushUsingEnum() {
-        JJBlockRouter.default.open(SimpleRouter.systemPush)(self)
+        (try? JJBlockRouter.default.open(SimpleRouter.systemPush))?.jump(from: self)
     }
     
     @IBAction func onClickPushUsingPath() {
-        JJBlockRouter.default.open("/app/systemPush")(nil)
+        (try? JJBlockRouter.default.open("/app/systemPush"))?.jump(from: self)
     }
     
     @IBAction func onClickPushUsingUrl() {
         if let url = URL(string: "https://www.appwebsite.com/app/systemPush/") {
-            JJBlockRouter.default.open(url)(self)
+            (try? JJBlockRouter.default.open(url))?.jump(from: self)
         }
     }
     
     @IBAction func onClickPresent() {
-        JJBlockRouter.default.open(SimpleRouter.systemPresent)(nil)
+        (try? JJBlockRouter.default.open(SimpleRouter.systemPresent))?.jump(from: nil)
     }
     
     @IBAction func onClickPushPopStylePresent() {
-        JJBlockRouter.default.open(SimpleRouter.pushPopStylePreset)(self)
+        (try? JJBlockRouter.default.open(SimpleRouter.pushPopStylePreset))?.jump(from: self)
     }
     
     @IBAction func onClickAlertCenter() {
-        JJBlockRouter.default.open(SimpleRouter.alertCenter)(self)
+        (try? JJBlockRouter.default.open(SimpleRouter.alertCenter))?.jump(from: self)
     }
 }
 
@@ -122,7 +122,7 @@ private extension ViewController {
 private extension ViewController {
     // 正常block回调: A跳转B, B通过路由block将数据回调给A
     @IBAction func onClickBackBlock() {
-        let router = JJBlockRouter.default.open(BlockRouter.backBlock)(self)
+        let router = (try? JJBlockRouter.default.open(BlockRouter.backBlock))?.jump(from: self)
         router?.register(blockName: "onSend", callback: { obj in
             print("get data: \(obj) from router block")
         })
@@ -131,13 +131,13 @@ private extension ViewController {
     // 非正常block回调
     // A跳转B, A通过路由block将实时数据回调给B
     @IBAction func onClickFrontBlock() {
-        JJBlockRouter.default.open(BlockRouter.frontBlockA)(self)
+        (try? JJBlockRouter.default.open(BlockRouter.frontBlockA))?.jump(from: self)
     }
     
     // 非正常block回调
     // A需要跳转B,但是条件达不到,需要跳转到其它路由界面C,此时可以正常拿到C的回调
     @IBAction func onClickMapBlock() {
-        let router = JJBlockRouter.default.open(BlockRouter.mapBlock)(self)
+        let router = (try? JJBlockRouter.default.open(BlockRouter.mapBlock))?.jump(from: self)
         router?.register(blockName: "loginSuccess", callback: { _ in
             print("登录成功")
         })
@@ -147,30 +147,30 @@ private extension ViewController {
 // MARK: - 传参数
 private extension ViewController {
     @IBAction func onClickPassParameterByUrl() {
-        JJBlockRouter.default.open("/app/passParameterByUrl/12/jack")(self)
+        (try? JJBlockRouter.default.open("/app/passParameterByUrl/12/jack"))?.jump(from: self)
     }
     
     @IBAction func onClickPassParameterByUrlWithQuery() {
-        JJBlockRouter.default.open("/app/search?name=lili&age=18")(self)
+        (try? JJBlockRouter.default.open("/app/search?name=lili&age=18"))?.jump(from: self)
     }
     
     @IBAction func onClickPassParameterByContext() {
-        JJBlockRouter.default.open(PassParameterRouter.byContext, context: 12)(self)
+        (try? JJBlockRouter.default.open(PassParameterRouter.byContext, context: 12))?.jump(from: self)
     }
     
     @IBAction func onClickPassParameterMixUrlAndContext() {
-        JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0)(self)
+        (try? JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0))?.jump(from: self)
     }
     
     @IBAction func onClickHandleParameterForInit() {
-        JJBlockRouter.default.open("/app/parameterForInit/66")(self)
+        (try? JJBlockRouter.default.open("/app/parameterForInit/66"))?.jump(from: self)
     }
     
     @IBAction func onClickPassParameterByEnum() {
-        JJBlockRouter.default.open(PassParameterRouter.byEnum(p: "entry", q: 108))(self)
+        (try? JJBlockRouter.default.open(PassParameterRouter.byEnum(p: "entry", q: 108)))?.jump(from: self)
     }
     
     @IBAction func onClickUpdateUIWhenMatchSameController() {
-        JJBlockRouter.default.open("/app/updateUIMatchedSame/18")(self)
+        (try? JJBlockRouter.default.open("/app/updateUIMatchedSame/18"))?.jump(from: self)
     }
 }

@@ -1,4 +1,4 @@
-@version = "0.0.3"
+@version = "0.0.4"
 Pod::Spec.new do |spec|
   spec.name         = "JJBlockRouter"
   spec.version      = @version
@@ -9,6 +9,6 @@ Pod::Spec.new do |spec|
   spec.author       = { "zgjff" => "zguijie1005@163.com" }
   spec.source       = { :git => "https://github.com/zgjff/JJBlockRouter.git", :tag => "#{spec.version}" }
   spec.source_files = "Sources/**/*.{swift}"
-  spec.platform     = :ios, "11.0"
+  spec.platform     = :ios, "9.0"
   spec.swift_version = '5.0'
 end

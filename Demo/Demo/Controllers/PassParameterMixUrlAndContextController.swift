@@ -7,12 +7,14 @@
 
 import UIKit
 
-class PassParameterMixUrlAndContextController: UIViewController {
+class PassParameterMixUrlAndContextController: UIViewController, ShowMatchRouterable {
     private var parameters: [String: String] = [:]
+    private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .random()
         print("parameters: ", parameters)
+        showMatchResult(result)
     }
 }
 
@@ -21,6 +23,7 @@ extension PassParameterMixUrlAndContextController: JJBlockRouterDestination {
         guard let needShow = result.context as? Bool, needShow else {
             return
         }
+        self.result = result
         parameters = result.parameters
         sourceController.navigationController?.pushViewController(self, animated: true)
     }

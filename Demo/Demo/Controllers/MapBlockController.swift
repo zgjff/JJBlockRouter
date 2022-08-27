@@ -7,16 +7,19 @@
 
 import UIKit
 
-class MapBlockController: UIViewController {
+class MapBlockController: UIViewController, ShowMatchRouterable {
+    private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "映射"
         view.backgroundColor = .random()
+        showMatchResult(result)
     }
 }
 
 extension MapBlockController: JJBlockRouterDestination {
     func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController) {
+        self.result = result
         sourceController.present(self, animated: true)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginController: UIViewController {
+class LoginController: UIViewController, ShowMatchRouterable {
     private var router: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,7 @@ class LoginController: UIViewController {
         b.center = view.center
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)
         view.addSubview(b)
+        showMatchResult(router)
     }
     
     @IBAction private func onClick() {

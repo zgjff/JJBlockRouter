@@ -7,16 +7,19 @@
 
 import UIKit
 
-class SystemPresentController: UIViewController {
+class SystemPresentController: UIViewController, ShowMatchRouterable {
 
+    private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .random()
+        showMatchResult(result)
     }
 }
 
 extension SystemPresentController: JJBlockRouterDestination {
     func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController) {
+        self.result = result
         sourceController.present(self, animated: true)
     }
 }

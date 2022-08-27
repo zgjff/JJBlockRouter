@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// 匹配成功后的路由目标界面
+/// 匹配成功后的路由目标界面协议
 public protocol JJBlockRouterDestination {
     /// 当匹配到的路由跟当前展示的界面相同时的操作方法,默认返回`new`
     ///
@@ -36,7 +36,7 @@ extension JJBlockRouterDestination {
     /// 处理路由匹配到的界面
     /// - Parameter result: 匹配结果
     func deal(withMatchedResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController?) {
-        let fromController = sourceController ?? UIApplication.shared.topViewController(JJBlockRouter.default.appKeyWindow()?.rootViewController)
+        let fromController = sourceController ?? UIViewController.topViewController(JJBlockRouter.default.appKeyWindow()?.rootViewController)
         guard let tvc = fromController else {
             return
         }

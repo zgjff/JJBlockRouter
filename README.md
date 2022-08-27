@@ -3,7 +3,7 @@ JJBlockRouter
 
 [![GitHub](https://img.shields.io/github/license/zgjff/JJBlockRouter)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![swift-5.0](https://img.shields.io/badge/swift-5.0-blue)](https://www.swift.org)
-![iOS-11.0](https://img.shields.io/badge/iOS-11.0-red)
+![iOS-9.0](https://img.shields.io/badge/iOS-9.0-red)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/zgjff/JJBlockRouter)](https://github.com/zgjff/JJBlockRouter)
 [![Cocoapods](https://img.shields.io/cocoapods/v/JJBlockRouter)](https://cocoapods.org/pods/JJBlockRouter)
 
@@ -75,16 +75,16 @@ SimpleRouter.allCases.forEach { try! $0.register() }
 ## 二、跳转
 ### 2.1 通过具体的`JJBlockRouterSource`对象跳转路由
 ```swift
-JJBlockRouter.default.open(SimpleRouter.systemPush)(self)
+(try? JJBlockRouter.default.open(SimpleRouter.systemPush))?.jump(from: self)
 ```
 ### 2.2 通过具体的`path`跳转路由
 ```swift
-JJBlockRouter.default.open("/app/systemPush")(nil)
+(try? JJBlockRouter.default.open("/app/systemPush"))?.jump(from: self)
 ```
 ### 2.3 通过具体的`URL`跳转路由
 ```swift
 if let url = URL(string: "https://www.appwebsite.com/app/systemPush/") {
-    JJBlockRouter.default.open(url)(self)
+    (try? JJBlockRouter.default.open(url))?.jump(from: self)
 }
 ```
 
@@ -104,7 +104,7 @@ var routerParameters: [String : String] {
     }
 }
 // A
-JJBlockRouter.default.open(PassParameterRouter.byEnum(p: "entry", q: 108))(self)
+(try? JJBlockRouter.default.open(PassParameterRouter.byContext, context: 12))?.jump(from: self)
 // 参数: ["p": "entry", "q": 12]
 ```
 ### 3.2 通过`path`或者`URL`传参数
@@ -115,7 +115,7 @@ enum PassParameterRouter {
     ...
 }
 // A
-JJBlockRouter.default.open("/app/passParameterByUrl/12/jack")(self)
+(try? JJBlockRouter.default.open("/app/passParameterByUrl/12/jack"))?.jump(from: self)
 // 参数: ["pid": "12", "name": "jack"]
 ```
 
@@ -127,7 +127,7 @@ enum PassParameterRouter {
     ...
 }
 // A
-JJBlockRouter.default.open("/app/search?name=lili&age=18")(self)
+(try? JJBlockRouter.default.open("/app/search?name=lili&age=18"))?.jump(from: self)
 // 参数: ["name": "lili", "age": "18"]
 ```
 
@@ -139,7 +139,7 @@ enum PassParameterRouter {
     ...
 }
 // A
-JJBlockRouter.default.open(PassParameterRouter.byContext, context: 12)(self)
+(try? JJBlockRouter.default.open(PassParameterRouter.byContext, context: 12))?.jump(from: self)(self)
 // B
 func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController) {
     if let pid = result.context as? Int {
@@ -157,7 +157,7 @@ enum PassParameterRouter {
     ...
 }
 // A
-JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0)(self)
+(try? JJBlockRouter.default.open("/app/mixUrlAndContext/12/keke", context: arc4random_uniform(2) == 0))?.jump(from: self)
 ```
 
 ### 3.6 将参数用于`UIViewController`的初始化
@@ -178,7 +178,7 @@ func makeRouterDestination(parameters: [String : String], context: Any?) -> JJBl
     }
 }
 // A
-JJBlockRouter.default.open("/app/parameterForInit/66")(self)
+(try? JJBlockRouter.default.open("/app/parameterForInit/66"))?.jump(from: self)
 // B
 init(id: Int) {
     pid = id
@@ -191,7 +191,7 @@ init(id: Int) {
 ### 4.1 正常block回调: A跳转B, B通过路由block将数据回调给A
 ```swift
 // A
-let router = JJBlockRouter.default.open(BlockRouter.backBlock)(self)
+let router = (try? JJBlockRouter.default.open(BlockRouter.backBlock))?.jump(from: self)
 router?.register(blockName: "onSend", callback: { obj in
     print("get data: \(obj) from router block")
 })
@@ -206,7 +206,7 @@ dismiss(animated: true) { [weak self] in
 
 ```swift
 // A
-let router = JJBlockRouter.default.open(BlockRouter.frontBlockB)(self)
+let router = (try? JJBlockRouter.default.open(BlockRouter.frontBlockB))?.jump(from: self)
 router?.register(blockName: "onNeedGetNewestData", callback: { [weak self] obj in
     guard let self = self,
         let block = obj as? (Int) -> () else {
@@ -238,7 +238,7 @@ func register() throws {
     })
 }
 // A
-let router = JJBlockRouter.default.open(BlockRouter.mapBlock)(self)
+let router = (try? JJBlockRouter.default.open(BlockRouter.mapBlock))?.jump(from: self)
 router?.register(blockName: "loginSuccess", callback: { _ in
     print("登录成功")
 })
@@ -281,7 +281,7 @@ func updateWhenRouterIdentifierIsSame(withNewMatchRouterResult result: JJBlockRo
 
 使用需求
 =================
-* iOS 11.0+
+* iOS 9.0+
 * Swift 5+
 
 安装

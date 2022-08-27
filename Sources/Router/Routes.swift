@@ -8,12 +8,22 @@
 import Foundation
 
 protocol Routes: CustomStringConvertible {
+    /// 注册路由
+    /// - Parameter pattern: 路由path
+    /// - Returns: 返回注册的路由解析数据
     func register(pattern: String) throws -> JJBlockRouter.Route
+    
+    /// 匹配路由
+    /// - Parameter url: 路由
+    /// - Returns: 匹配的结果
     func match(_ url: URL) -> Result<RouteMatchResult, MatchRouteError>
 }
 
+/// 注册路由错误
 enum RegisterRouteError: Error, CustomStringConvertible {
+    /// 路由path为空
     case emptyPattern
+    /// 已经存在相同模式的路由: 存在的路由
     case alreadyExists(oldRoute: JJBlockRouter.Route)
     
     var description: String {

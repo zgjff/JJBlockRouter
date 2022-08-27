@@ -67,65 +67,67 @@ private extension JJBlockRouter.Scanner {
     }
     
     func scanner_below3(using scanner: Foundation.Scanner, into builder: inout JJBlockRouter.PatternTokenBuilder) {
-        var str: NSString?
-        if scanner.scanCharacters(from: .letters, into: &str) {
-            if let str = str {
-                builder.appendLetters(str as String)
+        if #unavailable(iOS 13) {
+            var str: NSString?
+            if scanner.scanCharacters(from: .letters, into: &str) {
+                if let str = str {
+                    builder.appendLetters(str as String)
+                }
+                return
             }
-            return
-        }
-        var doubleValue: Double = -1
-        if scanner.scanDouble(&doubleValue) {
-            let isInteger = floor(doubleValue) == doubleValue
-            builder.appendLetters(isInteger ? String(Int(doubleValue)) : String(doubleValue))
-            return
-        }
-        if scanner.scanString("/", into: &str) {
-            if str != nil {
-                builder.appendSlash()
+            var doubleValue: Double = -1
+            if scanner.scanDouble(&doubleValue) {
+                let isInteger = floor(doubleValue) == doubleValue
+                builder.appendLetters(isInteger ? String(Int(doubleValue)) : String(doubleValue))
+                return
             }
-            return
-        }
-        if scanner.scanString(":", into: &str) {
-            if str != nil {
-                builder.appendVariable()
+            if scanner.scanString("/", into: &str) {
+                if str != nil {
+                    builder.appendSlash()
+                }
+                return
             }
-            return
-        }
-        if scanner.scanString("?", into: &str) {
-            if str != nil {
-                builder.appendQuery()
+            if scanner.scanString(":", into: &str) {
+                if str != nil {
+                    builder.appendVariable()
+                }
+                return
             }
-            return
-        }
-        if scanner.scanString("=", into: &str) {
-            if str != nil {
-                builder.appendEqual()
+            if scanner.scanString("?", into: &str) {
+                if str != nil {
+                    builder.appendQuery()
+                }
+                return
             }
-            return
-        }
-        if scanner.scanString("&", into: &str) {
-            if str != nil {
-                builder.appendAnd()
+            if scanner.scanString("=", into: &str) {
+                if str != nil {
+                    builder.appendEqual()
+                }
+                return
             }
-            return
-        }
-        if scanner.scanString("#", into: &str) {
-            if str != nil {
-                builder.appendFragment()
+            if scanner.scanString("&", into: &str) {
+                if str != nil {
+                    builder.appendAnd()
+                }
+                return
             }
-            return
-        }
-        var hint: UInt32 = 0
-        if scanner.scanHexInt32(&hint) {
-            return
-        }
-        if scanner.scanHexDouble(&doubleValue) {
-            return
-        }
-        let cs = CharacterSet(charactersIn: "!@#$^&%*+,:;='\"`<>()[]{}/\\| ")
-        if scanner.scanCharacters(from: cs, into: &str) {
-            return
+            if scanner.scanString("#", into: &str) {
+                if str != nil {
+                    builder.appendFragment()
+                }
+                return
+            }
+            var hint: UInt32 = 0
+            if scanner.scanHexInt32(&hint) {
+                return
+            }
+            if scanner.scanHexDouble(&doubleValue) {
+                return
+            }
+            let cs = CharacterSet(charactersIn: "!@#$^&%*+,:;='\"`<>()[]{}/\\| ")
+            if scanner.scanCharacters(from: cs, into: &str) {
+                return
+            }
         }
     }
 }

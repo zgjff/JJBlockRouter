@@ -122,7 +122,11 @@ private extension ViewController {
 private extension ViewController {
     // 正常block回调: A跳转B, B通过路由block将数据回调给A
     @IBAction func onClickBackBlock() {
-        let router = (try? JJBlockRouter.default.open(BlockRouter.backBlock))?.jump(from: self)
+        // 不缩写的代码逻辑应该是这样的
+        let result = try? JJBlockRouter.default.open(BlockRouter.backBlock)
+        let router = result?.jump(from: self)
+        // 当然也可以缩写
+//        let router = (try? JJBlockRouter.default.open(BlockRouter.backBlock))?.jump(from: self)
         router?.register(blockName: "onSend", callback: { obj in
             print("get data: \(obj) from router block")
         })

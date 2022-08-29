@@ -19,9 +19,8 @@ extension ShowMatchRouterable {
         let l = UILabel()
         l.numberOfLines = 0
         l.text = result.description
-        let size = l.sizeThatFits(CGSize(width: self.view.bounds.width - 50, height: self.view.bounds.height))
-        l.frame = CGRect(x: 0, y: 0 , width: size.width, height: size.height)
-        l.center = view.center
+        let size = l.sizeThatFits(CGSize(width: view.bounds.width - 50, height: view.bounds.height))
+        l.frame = CGRect(x: (view.frame.width - size.width) * 0.5, y: 88 , width: size.width, height: size.height)
         view.addSubview(l)
     }
 }

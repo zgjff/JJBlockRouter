@@ -18,7 +18,7 @@ public final class JJBlockRouter {
         debugPrint("⚠️⚠️⚠️JJBlockRouter 未匹配到 source: \(source), context: \(String(describing: context))")
     }
     
-    /// app的`KeyWindow`,如果感觉框架提供的`version_keyWindow`有问题的话,你可以提供自己实现的`appKeyWindow`
+    /// app的`KeyWindow`,如果不使用框架提供的`version_keyWindow`,你可以提供自己实现的`appKeyWindow`
     ///
     /// 但是要注意在设置完`AppDelegate`的`window?.makeKeyAndVisible()`之后,否则此时获取不到window
     /// 用来获取app的最顶层的控制器
@@ -61,6 +61,14 @@ extension JJBlockRouter {
             throw error
         }
     }
+    
+    /// 使用默认的全局路由管理器注册路由
+    /// - Parameters:
+    ///   - pattern: 路由path
+    ///   - mapRouter: 映射匹配到的路由来源----给匹配到路由时,最后决定跳转的策略(可在此处映射其他路由)
+    public static func register(pattern: String, mapRouter: @escaping (_ matchResult: MatchResult) -> JJBlockRouterSource?) throws {
+        try JJBlockRouter.default.register(pattern: pattern, mapRouter: mapRouter)
+    }
 }
 
 // MARK: - open
@@ -69,7 +77,8 @@ extension JJBlockRouter {
     /// - Parameters:
     ///   - source: 路由来源
     ///   - context: 传递给匹配到的路由界面数据
-    /// - Returns: 匹配结果block
+    ///   - unmatchHandler: 未匹配到路由时的回调
+    /// - Returns: 路由打开成功
     @discardableResult
     public func open<T>(_ source: T, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) throws -> OpenSuccess where T: JJBlockRouterSource {
         guard let matchHandler = routeHandlerMappings[source.routerPattern] else {
@@ -81,11 +90,23 @@ extension JJBlockRouter {
         return OpenSuccess(matchedResult: mresult, matchedHandler: matchHandler)
     }
     
-    /// 匹配`path`并跳转路由
+    /// 使用默认的全局路由管理器匹配泛型`JJBlockRouterSource`并跳转路由
     /// - Parameters:
     ///   - source: 路由来源
     ///   - context: 传递给匹配到的路由界面数据
-    /// - Returns: 匹配结果block
+    ///   - unmatchHandler: 未匹配到路由时的回调
+    /// - Returns: 路由打开成功
+    @discardableResult
+    public static func open<T>(_ source: T, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) throws -> OpenSuccess where T: JJBlockRouterSource {
+        return try JJBlockRouter.default.open(source, context: context, unmatchHandler: unmatchHandler)
+    }
+    
+    /// 匹配`path`并跳转路由
+    /// - Parameters:
+    ///   - path: 路由path
+    ///   - context: 传递给匹配到的路由界面数据
+    ///   - unmatchHandler: 未匹配到路由时的回调
+    /// - Returns: 路由打开成功
     @discardableResult
     public func open(_ path: String, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) throws -> OpenSuccess {
         let tp = path.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -97,13 +118,24 @@ extension JJBlockRouter {
         }
         return try open(url, context: context, unmatchHandler: unmatchHandler)
     }
+    
+    /// 使用默认的全局路由管理器匹配`path`并跳转路由
+    /// - Parameters:
+    ///   - path: 路由path
+    ///   - context: 传递给匹配到的路由界面数据
+    ///   - unmatchHandler: 未匹配到路由时的回调
+    /// - Returns: 路由打开成功
+    @discardableResult
+    public static func open(_ path: String, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) throws -> OpenSuccess {
+        return try JJBlockRouter.default.open(path, context: context, unmatchHandler: unmatchHandler)
+    }
 
     /// 匹配`URL`并跳转路由
     /// - Parameters:
-    ///   - url: 路由url
+    ///   - path: 路由path
     ///   - context: 传递给匹配到的路由界面数据
-    ///   - unmatchHandler: 未匹配到路由时
-    /// - Returns: 匹配结果block
+    ///   - unmatchHandler: 未匹配到路由时的回调
+    /// - Returns: 路由打开成功
     @discardableResult
     public func open(_ url: URL, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) throws -> OpenSuccess {
         let result = routes.match(url)
@@ -121,6 +153,17 @@ extension JJBlockRouter {
             let mresult = JJBlockRouter.MatchResult(source: .url(route.url), parameters: route.parameters, context: context)
             return OpenSuccess(matchedResult: mresult, matchedHandler: matchHandler)
         }
+    }
+    
+    /// 匹配`URL`并跳转路由
+    /// - Parameters:
+    ///   - path: 路由path
+    ///   - context: 传递给匹配到的路由界面数据
+    ///   - unmatchHandler: 未匹配到路由时的回调
+    /// - Returns: 路由打开成功
+    @discardableResult
+    public static func open(_ url: URL, context: Any? = nil, unmatchHandler: UnmatchHandler? = nil) throws -> OpenSuccess {
+        return try JJBlockRouter.default.open(url, context: context, unmatchHandler: unmatchHandler)
     }
 }
 

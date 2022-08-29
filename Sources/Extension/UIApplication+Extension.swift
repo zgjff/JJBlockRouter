@@ -8,21 +8,6 @@
 import UIKit
 
 extension UIApplication {
-//    public func topViewController(_ top: UIViewController?) -> UIViewController? {
-//        if let nav = top as? UINavigationController {
-//            return topViewController(nav.visibleViewController)
-//        }
-//        if let tab = top as? UITabBarController {
-//            if let selected = tab.selectedViewController {
-//                return topViewController(selected)
-//            }
-//        }
-//        if let presented = top?.presentedViewController {
-//            return topViewController(presented)
-//        }
-//        return top
-//    }
-    
     /// 获取app的keyWindow
     public var version_keyWindow: UIWindow? {
         if #available(iOS 13.0, *) {
@@ -45,8 +30,10 @@ extension UIApplication {
     }
 }
 
-
 extension UIViewController {
+    /// 获取对应控制器栈顶的控制器
+    /// - Parameter top: 对应控制器
+    /// - Returns: 结果
     public static func topViewController(_ top: UIViewController?) -> UIViewController? {
         if let nav = top as? UINavigationController {
             return topViewController(nav.visibleViewController)

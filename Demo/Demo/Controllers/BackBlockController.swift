@@ -12,6 +12,7 @@ class BackBlockController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .random()
+        title = "back block"
         let b = UIButton()
         b.backgroundColor = .random()
         b.frame = CGRect(x: 0, y: 0, width: view.bounds.width - 160, height: 44)

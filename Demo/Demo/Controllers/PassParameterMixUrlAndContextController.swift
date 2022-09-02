@@ -13,7 +13,7 @@ class PassParameterMixUrlAndContextController: UIViewController, ShowMatchRouter
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .random()
-        print("parameters: ", parameters)
+        title = "PassParameterMixUrlAndContext"
         showMatchResult(result)
     }
 }

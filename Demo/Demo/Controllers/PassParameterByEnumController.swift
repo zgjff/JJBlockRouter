@@ -24,8 +24,7 @@ class PassParameterByEnumController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .random()
-        title = "p: \(p), q: \(q)"
-        print("p: \(p), q: \(q)")
+        title = "PassParameterByEnum p: \(p), q: \(q)"
         showMatchResult(result)
     }
 }

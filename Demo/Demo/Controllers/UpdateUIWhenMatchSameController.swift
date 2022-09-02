@@ -12,7 +12,7 @@ class UpdateUIWhenMatchSameController: UIViewController, ShowMatchRouterable {
     private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "A"
+        title = "UpdateUIWhenMatchSame \(pid)"
         view.backgroundColor = .random()
         let b = UIButton()
         b.backgroundColor = .random()
@@ -20,7 +20,6 @@ class UpdateUIWhenMatchSameController: UIViewController, ShowMatchRouterable {
         b.center = view.center
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)
         view.addSubview(b)
-        title = "\(pid)"
         showMatchResult(result)
     }
     
@@ -43,7 +42,9 @@ extension UpdateUIWhenMatchSameController: JJBlockRouterDestination {
     
     func updateWhenRouterIdentifierIsSame(withNewMatchRouterResult result: JJBlockRouter.MatchResult) {
         pid = parseId(from: result.parameters)
-        title = "\(pid)"
+        title = "UpdateUIWhenMatchSame \(pid)"
+        view.subviews.filter({ $0 is UILabel}).first?.removeFromSuperview()
+        showMatchResult(result)
     }
     
     private func parseId(from parameters: [String: String]) -> Int {

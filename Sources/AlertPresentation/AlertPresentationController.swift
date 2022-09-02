@@ -42,9 +42,7 @@ extension AlertPresentationController {
             guard let cb = context.belowCoverView,
             let cv = containerView else { return }
             let bcv = cb(cv.bounds)
-            if context.touchedCorverDismiss {
-                bcv.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(belowCoverTapped(_:))))
-            }
+            bcv.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(belowCoverTapped(_:))))
             belowCoverView = bcv
             cv.addSubview(bcv)
             guard let coor = presentingViewController.transitionCoordinator else { return }
@@ -170,10 +168,13 @@ extension AlertPresentationController: UIViewControllerAnimatedTransitioning {
 
 extension AlertPresentationController {
     @IBAction private func belowCoverTapped(_ sender: UITapGestureRecognizer) {
-        if let _ = context.belowCoverTapped {
-            context.belowCoverTapped?()
-        } else {
-            presentingViewController.dismiss(animated: true, completion: nil)
+        switch context.belowCoverAction {
+        case .autodismiss(let isDismiss):
+            if isDismiss {
+                presentingViewController.dismiss(animated: true, completion: nil)
+            }
+        case .customize(action: let block):
+            block()
         }
     }
     

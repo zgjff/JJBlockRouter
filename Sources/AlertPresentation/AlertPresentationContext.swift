@@ -7,31 +7,18 @@
 
 import UIKit
 final public class AlertPresentationContext {
-    /// 转场动画的过渡类型
-    public enum TransitionType {
-        case present(frames: TransitionContextFrames)
-        case dismiss(frames: TransitionContextFrames)
-    }
-    
-    /// 转场动画过程中的frame
-    public struct TransitionContextFrames {
-        public let fromInitialFrame: CGRect
-        public let fromFinalFrame: CGRect
-        public let toInitialFrame: CGRect
-        public let toFinalFrame: CGRect
-    }
-    
     /// 转场动画持续时间---默认0.2s
     public var duration: TimeInterval = 0.2
     
-    /// 空白页点击事件
-    public var belowCoverTapped: (() -> ())?
+    /// 弹出界面的其余部分点击事件,默认为自动dismiss
+    ///
+    /// 可以在弹窗出现之后通过`AlertPresentationController`的`updateContext`方法随时更改此属性
+    ///
+    /// eg:可以在弹窗展示的时候为`.autodismiss(false)`,然后,在页面事件处理完成之后改为`.autodismiss(true)`
+    public var belowCoverAction = AlertPresentationContext.BelowCoverAction.autodismiss(true)
     
     /// preferredContentSize 改变时的动画配置, 默认为nil
     public var preferredContentSizeDidChangeAnimationInfo: (duration: TimeInterval, delay: TimeInterval, options: UIView.AnimationOptions)?
-    
-    /// 点击弹出界面的其余部分是否可以dismiss,默认是true
-    public var touchedCorverDismiss = true
     
     /// 转场动画中presentingViewController的View的frame----默认frame可以使presentingView居中
     public var frameOfPresentedViewInContainerView: ((_ containerViewBounds: CGRect, _ preferredContentSize: CGSize) -> (CGRect))? = Default.centerFrameOfPresentedView
@@ -54,6 +41,7 @@ final public class AlertPresentationContext {
 //    public var transitionAnimator1: ((_ aniView: UIView, _ style: AlertPresentationContext.TransitionType, _ duration: TimeInterval, _ ctx: UIViewControllerContextTransitioning) -> ())? = Default.centerTransitionAnimator
     
     public var transitionAnimator: ((_ fromView: UIView, _ toView: UIView, _ style: AlertPresentationContext.TransitionType, _ duration: TimeInterval, _ ctx: UIViewControllerContextTransitioning) -> ())? = Default.centerTransitionAnimator
+    
     /// 转场动画presentationTransitionWillBegin时,belowCoverView要展示的动画效果,默认是暗灰色view的动画效果
     ///
     /// 例如:
@@ -113,5 +101,29 @@ extension AlertPresentationContext {
         belowCoverView = Default.blurBelowCoverView
         willPresentAnimatorForBelowCoverView = Default.blurBelowCoverViewAnimator(style)(true)
         willDismissAnimatorForBelowCoverView = Default.blurBelowCoverViewAnimator(style)(false)
+    }
+}
+
+extension AlertPresentationContext {
+    /// 转场动画的过渡类型
+    public enum TransitionType {
+        case present(frames: TransitionContextFrames)
+        case dismiss(frames: TransitionContextFrames)
+    }
+    
+    /// 转场动画过程中的frame
+    public struct TransitionContextFrames {
+        public let fromInitialFrame: CGRect
+        public let fromFinalFrame: CGRect
+        public let toInitialFrame: CGRect
+        public let toFinalFrame: CGRect
+    }
+    
+    /// 点击弹出界面的其余部分事件
+    public enum BelowCoverAction {
+        /// 是否自动dismiss
+        case autodismiss(_ auto: Bool)
+        /// 自定义动作
+        case customize(action: () -> ())
     }
 }

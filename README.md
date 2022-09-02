@@ -12,7 +12,7 @@ JJBlockRouter
 
 思路
 =================
-最基本思路: 谁显示,谁负责显示方式
+最基本思路: 自己负责自己的显示方式
 > 即从A跳转到B,由B自己来决定是push还是present，亦或者使用自定义的转场动画来显示
 
 所以路由界面需要遵守`JJBlockRouterDestination`协议并实现`func showDetail(withMatchRouterResult result: JJBlockRouter.MatchResult, from sourceController: UIViewController)`方法
@@ -191,7 +191,11 @@ init(id: Int) {
 ### 4.1 正常block回调: A跳转B, B通过路由block将数据回调给A
 ```swift
 // A
-let router = (try? JJBlockRouter.default.open(BlockRouter.backBlock))?.jump(from: self)
+// 不缩写的代码逻辑应该是这样的
+let result = try? JJBlockRouter.default.open(BlockRouter.backBlock)
+let router = result?.jump(from: self)
+// 当然也可以缩写
+// let router = (try? JJBlockRouter.default.open(BlockRouter.backBlock))?.jump(from: self)
 router?.register(blockName: "onSend", callback: { obj in
     print("get data: \(obj) from router block")
 })

@@ -12,6 +12,7 @@ class SystemPresentController: UIViewController, ShowMatchRouterable {
     private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "SystemPresent"
         view.backgroundColor = .random()
         showMatchResult(result)
     }

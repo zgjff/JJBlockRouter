@@ -151,7 +151,7 @@ private extension ViewController {
 // MARK: - 传参数
 private extension ViewController {
     @IBAction func onClickPassParameterByUrl() {
-        (try? JJBlockRouter.default.open("/app/passParameterByUrl/12/jack"))?.jump(from: self)
+        (try? JJBlockRouter.default.open("/app/passParameterByUrl/album_tab12.9abc/jack"))?.jump(from: self)
     }
     
     @IBAction func onClickPassParameterByUrlWithQuery() {

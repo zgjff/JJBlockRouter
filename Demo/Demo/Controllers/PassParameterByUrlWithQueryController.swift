@@ -13,7 +13,7 @@ class PassParameterByUrlWithQueryController: UIViewController, ShowMatchRouterab
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .random()
-        print("parameters: ", parameters)
+        title = "PassParameterByUrlWithQuery"
         showMatchResult(result)
     }
 }

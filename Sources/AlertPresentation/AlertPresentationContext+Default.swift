@@ -180,18 +180,18 @@ public extension AlertPresentationContext.Default {
     /// 居中弹出presentedViewController的动画效果
     static var centerTransitionAnimator: (UIView, UIView, AlertPresentationContext.TransitionType, TimeInterval, UIViewControllerContextTransitioning) -> () = { fromView, toView, style, duration, ctx in
         switch style {
-        case .present(let f):
-            toView.frame = f
+        case .present(frames: let frames):
+            toView.frame = frames.toFinalFrame
             toView.transform = toView.transform.scaledBy(x: 0.01, y: 0.01)
-        case .dismiss(initial: let f):
-            fromView.frame = f
+        case .dismiss(frames: let frames):
+            fromView.frame = frames.fromInitialFrame
             fromView.transform = CGAffineTransform.identity
         }
         UIView.animate(withDuration: duration, animations: {
             switch style {
-            case .present(let f):
+            case .present:
                 toView.transform = CGAffineTransform.identity
-            case .dismiss(initial: let f):
+            case .dismiss:
                 fromView.transform = fromView.transform.scaledBy(x: 0.01, y: 0.01)
             }
         }, completion: { _ in
@@ -203,16 +203,19 @@ public extension AlertPresentationContext.Default {
     /// 从底部弹出presentedViewController的动画效果
     static var bottomTransitionAnimator: (UIView, UIView, AlertPresentationContext.TransitionType, TimeInterval, UIViewControllerContextTransitioning) -> () = { fromView, toView, style, duration, ctx in
         switch style {
-        case .present(let f):
+        case .present(frames: let frames):
+            let f = frames.toFinalFrame
             toView.frame = f.offsetBy(dx: 0, dy: f.height)
-        case .dismiss(initial: let f):
+        case .dismiss(frames: let frames):
+            let f = frames.fromInitialFrame
             fromView.frame = f
         }
         UIView.animate(withDuration: duration, animations: {
             switch style {
-            case .present(final: let f):
-                toView.frame = f
-            case .dismiss(initial: let f):
+            case .present(frames: let frames):
+                toView.frame = frames.toFinalFrame
+            case .dismiss(frames: let frames):
+                let f = frames.fromInitialFrame
                 fromView.frame = f.offsetBy(dx: 0, dy: f.height)
             }
         }) { _ in

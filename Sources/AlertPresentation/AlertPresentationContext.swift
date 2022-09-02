@@ -6,15 +6,19 @@
 //
 
 import UIKit
-
 final public class AlertPresentationContext {
     /// 转场动画的过渡类型
-    ///
-    /// - present: present(toView的最终frame)
-    /// - dismiss: dismiss(fromView的初始frame)
     public enum TransitionType {
-        case present(final: CGRect)
-        case dismiss(initial: CGRect)
+        case present(frames: TransitionContextFrames)
+        case dismiss(frames: TransitionContextFrames)
+    }
+    
+    /// 转场动画过程中的frame
+    public struct TransitionContextFrames {
+        public let fromInitialFrame: CGRect
+        public let fromFinalFrame: CGRect
+        public let toInitialFrame: CGRect
+        public let toFinalFrame: CGRect
     }
     
     /// 转场动画持续时间---默认0.2s

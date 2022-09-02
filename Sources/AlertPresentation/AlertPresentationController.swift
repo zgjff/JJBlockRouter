@@ -148,14 +148,22 @@ extension AlertPresentationController: UIViewControllerAnimatedTransitioning {
         let isPresenting = presentingViewController == fromVC
         let fromView = transitionContext.view(forKey: .from) ?? fromVC.view!
         let toView = transitionContext.view(forKey: .to) ?? toVC.view!
+        
+        let finitialFrame = transitionContext.initialFrame(for: fromVC)
+        let ffinalFrame = transitionContext.finalFrame(for: fromVC)
+        let tinitialFrame = transitionContext.initialFrame(for: toVC)
+        let tfinalFrame = transitionContext.finalFrame(for: toVC)
+        
+        let framesInfo = AlertPresentationContext.TransitionContextFrames.init(fromInitialFrame: finitialFrame, fromFinalFrame: ffinalFrame, toInitialFrame: tinitialFrame, toFinalFrame: tfinalFrame)
+        
         if isPresenting {
             cv.addSubview(toView)
         }
         let t  = transitionDuration(using: transitionContext)
         if isPresenting {
-            context.transitionAnimator?(fromView, toView, .present(final: transitionContext.finalFrame(for: toVC)), t, transitionContext)
+            context.transitionAnimator?(fromView, toView, .present(frames: framesInfo), t, transitionContext)
         } else {
-            context.transitionAnimator?(fromView, toView, .dismiss(initial: fromView.frame), t, transitionContext)
+            context.transitionAnimator?(fromView, toView, .dismiss(frames: framesInfo), t, transitionContext)
         }
     }
 }

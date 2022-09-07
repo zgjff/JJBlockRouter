@@ -1,4 +1,4 @@
-@version = "0.1.0"
+@version = "0.1.1"
 Pod::Spec.new do |spec|
   spec.name         = "JJBlockRouter"
   spec.version      = @version
@@ -9,16 +9,17 @@ Pod::Spec.new do |spec|
   spec.author       = { "zgjff" => "zguijie1005@163.com" }
   spec.source       = { :git => "https://github.com/zgjff/JJBlockRouter.git", :tag => "#{spec.version}" }
 
+  spec.subspec 'Extension' do |extension|
+    extension.source_files = "Sources/Extension/*.{swift}"
+  end
+
   spec.subspec 'AlertPresentation' do |alert|
     alert.source_files = "Sources/AlertPresentation/*.{swift}"
   end
 
   spec.subspec 'Router' do |router|
     router.source_files = "Sources/Router/*.{swift}"
-  end
-
-  spec.subspec 'Extension' do |extension|
-    extension.source_files = "Sources/Extension/*.{swift}"
+    router.dependency 'JJBlockRouter/Extension'
   end
 
   spec.platform     = :ios, "9.0"

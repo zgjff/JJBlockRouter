@@ -53,7 +53,7 @@
 		5E86267A28946C2500165D8C /* RootRowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E86267928946C2500165D8C /* RootRowAction.swift */; };
 		5E9747D3289771FC00E0DDA6 /* PassParameterByEnumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9747D2289771FC00E0DDA6 /* PassParameterByEnumController.swift */; };
 		9D12131D28C86CAA0081A6C6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D12131C28C86CAA0081A6C6 /* UIColor+Extension.swift */; };
-		9D12131F28C87A9E0081A6C6 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D12131E28C87A9E0081A6C6 /* UIApplication+Extension.swift */; };
+		9D12132128C87DC70081A6C6 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D12132028C87DC70081A6C6 /* UIApplication+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,7 +105,7 @@
 		5E86267928946C2500165D8C /* RootRowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRowAction.swift; sourceTree = "<group>"; };
 		5E9747D2289771FC00E0DDA6 /* PassParameterByEnumController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassParameterByEnumController.swift; sourceTree = "<group>"; };
 		9D12131C28C86CAA0081A6C6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		9D12131E28C87A9E0081A6C6 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		9D12132028C87DC70081A6C6 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				9D12131C28C86CAA0081A6C6 /* UIColor+Extension.swift */,
+				9D12132028C87DC70081A6C6 /* UIApplication+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -201,7 +202,6 @@
 				5E86263628946AD100165D8C /* RoutingPatternToken.swift */,
 				5E86263F28946AD100165D8C /* PatternTokenBuilder.swift */,
 				5E86264128946AD100165D8C /* Route.swift */,
-				9D12131E28C87A9E0081A6C6 /* UIApplication+Extension.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -337,7 +337,7 @@
 				5E86267A28946C2500165D8C /* RootRowAction.swift in Sources */,
 				5E187F8828B9C6DF006295C8 /* RouterOpenFailure.swift in Sources */,
 				5E187F8A28B9D3C9006295C8 /* ShowMatchRouterable.swift in Sources */,
-				9D12131F28C87A9E0081A6C6 /* UIApplication+Extension.swift in Sources */,
+				9D12132128C87DC70081A6C6 /* UIApplication+Extension.swift in Sources */,
 				5E187F8428B9AA1D006295C8 /* RouteMatchResultSource.swift in Sources */,
 				5E86266828946C1B00165D8C /* MapBlockController.swift in Sources */,
 				5E86266A28946C1B00165D8C /* PassParameterMixUrlAndContextController.swift in Sources */,

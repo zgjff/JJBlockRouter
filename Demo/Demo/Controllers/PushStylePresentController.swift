@@ -11,7 +11,7 @@ class PushStylePresentController: UIViewController, PushPopStylePresentDelegate,
     private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         title = "PushPop Style Present"
         addScreenPanGestureDismiss()
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onClickClose))

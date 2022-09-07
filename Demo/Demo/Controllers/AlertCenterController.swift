@@ -11,7 +11,7 @@ class AlertCenterController: UIViewController, ShowMatchRouterable {
     private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         preferredContentSize = CGSize(width: view.bounds.width - 100, height: 300)
     }
     
@@ -27,8 +27,7 @@ extension AlertCenterController: JJBlockRouterDestination {
         let pd = AlertPresentationController(show: self, from: sourceController) { ctx in
             ctx.usingBlurBelowCoverAnimators(style: .dark)
         }
-        transitioningDelegate = pd
-        sourceController.present(self, animated: true) {
+        pd.startPresent {
             let _ = pd
         }
     }

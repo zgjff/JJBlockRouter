@@ -13,7 +13,7 @@ class SystemPresentController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "SystemPresent"
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         showMatchResult(result)
     }
 }

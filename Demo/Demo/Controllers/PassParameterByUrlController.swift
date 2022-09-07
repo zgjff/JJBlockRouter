@@ -13,7 +13,7 @@ class PassParameterByUrlController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "PassParameterByUrl"
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         print("parameters: ", parameters)
         showMatchResult(result)
     }

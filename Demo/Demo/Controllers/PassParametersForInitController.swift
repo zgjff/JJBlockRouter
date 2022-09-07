@@ -21,7 +21,7 @@ class PassParametersForInitController: UIViewController, ShowMatchRouterable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         title = "ForInit \(pid)"
         print("pid: ", pid)
         showMatchResult(result)

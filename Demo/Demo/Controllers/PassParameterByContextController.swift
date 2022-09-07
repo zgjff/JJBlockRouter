@@ -12,7 +12,7 @@ class PassParameterByContextController: UIViewController, ShowMatchRouterable {
     private var pid = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         title = "PassParameterByContext"
         showMatchResult(result)
     }

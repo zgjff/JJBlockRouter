@@ -13,7 +13,7 @@ extension JJBlockRouter {
         private let letterNumberMixSpecificSymbolCharacterSet: CharacterSet
         private let below13ContinueScanCharacterSet: CharacterSet
         init() {
-            let specificSymbolCharacterSet = CharacterSet(charactersIn: "_.")
+            let specificSymbolCharacterSet = CharacterSet(charactersIn: "_.-")
             letterNumberMixSpecificSymbolCharacterSet = CharacterSet.alphanumerics.union(specificSymbolCharacterSet)
             below13ContinueScanCharacterSet = CharacterSet(charactersIn: "!@#$^&%*+,:;='\"`<>()[]{}/\\| ")
         }

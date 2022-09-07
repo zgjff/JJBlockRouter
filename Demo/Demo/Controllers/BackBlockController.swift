@@ -11,10 +11,10 @@ class BackBlockController: UIViewController, ShowMatchRouterable {
     private var router: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         title = "back block"
         let b = UIButton()
-        b.backgroundColor = .random()
+        b.backgroundColor = .jj_random()
         b.frame = CGRect(x: 0, y: 0, width: view.bounds.width - 160, height: 44)
         b.center = view.center
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)

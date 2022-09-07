@@ -12,7 +12,7 @@ class PassParameterMixUrlAndContextController: UIViewController, ShowMatchRouter
     private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         title = "PassParameterMixUrlAndContext"
         showMatchResult(result)
     }

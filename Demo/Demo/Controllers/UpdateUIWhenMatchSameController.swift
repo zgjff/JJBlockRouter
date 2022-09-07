@@ -13,9 +13,9 @@ class UpdateUIWhenMatchSameController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "UpdateUIWhenMatchSame \(pid)"
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         let b = UIButton()
-        b.backgroundColor = .random()
+        b.backgroundColor = .jj_random()
         b.frame = CGRect(x: 0, y: 0, width: view.bounds.width - 160, height: 44)
         b.center = view.center
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)
@@ -24,7 +24,7 @@ class UpdateUIWhenMatchSameController: UIViewController, ShowMatchRouterable {
     }
     
     @IBAction private func onClick() {
-        (try? JJBlockRouter.default.open("/app/updateUIMatchedSame/88"))?.jump(from: self)
+        (try? JJBlockRouter.default.open("/app/updateUIMatchedSame/\(arc4random_uniform(100))"))?.jump(from: self)
     }
 }
 

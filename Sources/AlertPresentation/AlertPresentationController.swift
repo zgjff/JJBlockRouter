@@ -9,11 +9,17 @@ import UIKit
 
 /// 弹窗驱动提供器,方便自定义弹窗弹出动画逻辑
 final public class AlertPresentationController: UIPresentationController {
-    public init(show presentedViewController: UIViewController, from presentingViewController: UIViewController?, config configContext: ((AlertPresentationContext) -> ())? = nil) {
+    /// 初始化弹窗驱动提供器
+    /// - Parameters:
+    ///   - presentedViewController: 跳转源控制器
+    ///   - presentingViewController: 跳转目标控制器
+    ///   - configContext: 设置context的block
+    public init(show presentedViewController: UIViewController, from presentingViewController: UIViewController?, config configContext: ((_ ctx: AlertPresentationContext) -> ())? = nil) {
         presentedViewController.modalPresentationStyle = .custom
         self.context = AlertPresentationContext()
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         presentedViewController.modalPresentationStyle = .custom
+        presentedViewController.transitioningDelegate = self
         configContext?(context)
     }
     public override var presentedView: UIView? {
@@ -22,6 +28,22 @@ final public class AlertPresentationController: UIPresentationController {
     private let context: AlertPresentationContext
     private var belowCoverView: UIView?
     private var presentationWrappingView: UIView?
+}
+
+// MARK: - public
+extension AlertPresentationController {
+    /// 更新动画协调器
+    public func updateContext(_ block: (_ ctx: AlertPresentationContext) -> ()) {
+        block(context)
+    }
+    
+    /// 开始present跳转
+    /// - Parameters:
+    ///   - animated: 动画与否
+    ///   - completion: 跳转完成回调
+    public func startPresent(animated: Bool = true, completion: (() -> ())?) {
+        presentingViewController.present(presentedViewController, animated: true, completion: completion)
+    }
 }
 
 // MARK: - Life cycle
@@ -166,8 +188,9 @@ extension AlertPresentationController: UIViewControllerAnimatedTransitioning {
     }
 }
 
-extension AlertPresentationController {
-    @IBAction private func belowCoverTapped(_ sender: UITapGestureRecognizer) {
+// MARK: - private
+private extension AlertPresentationController {
+    @IBAction func belowCoverTapped(_ sender: UITapGestureRecognizer) {
         switch context.belowCoverAction {
         case .autodismiss(let isDismiss):
             if isDismiss {
@@ -176,10 +199,5 @@ extension AlertPresentationController {
         case .customize(action: let block):
             block()
         }
-    }
-    
-    /// 更新动画协调器
-    public func updateContext(_ block: (_ ctx: AlertPresentationContext) -> ()) {
-        block(context)
     }
 }

@@ -13,7 +13,7 @@ class SystemPushController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "System Push"
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         showMatchResult(result)
     }
 }

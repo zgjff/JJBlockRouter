@@ -12,7 +12,7 @@ class PassParameterByUrlWithQueryController: UIViewController, ShowMatchRouterab
     private var result: JJBlockRouter.MatchResult?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         title = "PassParameterByUrlWithQuery"
         showMatchResult(result)
     }

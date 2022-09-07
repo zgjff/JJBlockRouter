@@ -14,9 +14,9 @@ class FrontBlockAController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "A"
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         let b = UIButton()
-        b.backgroundColor = .random()
+        b.backgroundColor = .jj_random()
         b.frame = CGRect(x: 0, y: 0, width: view.bounds.width - 160, height: 44)
         b.center = view.center
         b.addTarget(self, action: #selector(onClick), for: .primaryActionTriggered)

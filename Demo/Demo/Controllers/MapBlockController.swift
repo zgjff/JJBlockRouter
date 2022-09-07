@@ -12,7 +12,7 @@ class MapBlockController: UIViewController, ShowMatchRouterable {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "映射"
-        view.backgroundColor = .random()
+        view.backgroundColor = .jj_random()
         showMatchResult(result)
     }
 }

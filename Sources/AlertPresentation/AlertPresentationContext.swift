@@ -38,8 +38,6 @@ final public class AlertPresentationContext {
     public var belowCoverView: ((_ frame: CGRect) -> UIView)? = Default.dimmingBelowCoverView
     
     /// 转场动画的具体实现----默认是弹出居中view的动画效果
-//    public var transitionAnimator1: ((_ aniView: UIView, _ style: AlertPresentationContext.TransitionType, _ duration: TimeInterval, _ ctx: UIViewControllerContextTransitioning) -> ())? = Default.centerTransitionAnimator
-    
     public var transitionAnimator: ((_ fromView: UIView, _ toView: UIView, _ style: AlertPresentationContext.TransitionType, _ duration: TimeInterval, _ ctx: UIViewControllerContextTransitioning) -> ())? = Default.centerTransitionAnimator
     
     /// 转场动画presentationTransitionWillBegin时,belowCoverView要展示的动画效果,默认是暗灰色view的动画效果

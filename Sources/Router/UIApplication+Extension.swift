@@ -1,8 +1,51 @@
 //
 //  UIApplication+Extension.swift
-//  Demo
+//  JJBlockRouter-Demo
 //
-//  Created by 郑桂杰 on 2022/9/7.
+//  Created by zgjff on 2022/6/11.
 //
 
-import Foundation
+import UIKit
+
+extension UIApplication {
+    /// 获取app的keyWindow
+    public var version_keyWindow: UIWindow? {
+        if #available(iOS 13.0, *) {
+            let windows = UIApplication.shared.connectedScenes.compactMap { screen -> UIWindow? in
+                guard let wc = screen as? UIWindowScene, wc.activationState == .foregroundActive else {
+                    return nil
+                }
+                if let s = wc.delegate as? UIWindowSceneDelegate {
+                    return s.window ?? nil
+                }
+                if #available(iOS 15.0, *) {
+                    return wc.keyWindow
+                }
+                return wc.windows.filter { $0.isKeyWindow }.first
+            }
+            return windows.first
+        } else {
+            return keyWindow
+        }
+    }
+}
+
+extension UIViewController {
+    /// 获取对应控制器栈顶的控制器
+    /// - Parameter top: 对应控制器
+    /// - Returns: 结果
+    public static func topViewController(_ top: UIViewController?) -> UIViewController? {
+        if let nav = top as? UINavigationController {
+            return topViewController(nav.visibleViewController)
+        }
+        if let tab = top as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(selected)
+            }
+        }
+        if let presented = top?.presentedViewController {
+            return topViewController(presented)
+        }
+        return top
+    }
+}

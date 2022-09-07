@@ -1,4 +1,4 @@
-@version = "0.0.7"
+@version = "0.0.8"
 Pod::Spec.new do |spec|
   spec.name         = "JJBlockRouter"
   spec.version      = @version
@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
     extension.source_files = "Sources/Extension/*.{swift}"
   end
 
-  s.pod_target_xcconfig = {'VALID_ARCHS'=>'armv7 x86_64 arm64'}
+  spec.pod_target_xcconfig = {'VALID_ARCHS'=>'armv7 x86_64 arm64'}
   spec.platform     = :ios, "9.0"
   spec.swift_version = '5.0'
 end
